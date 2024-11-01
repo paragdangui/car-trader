@@ -5,6 +5,5 @@
 </script>
 
 <template>
-	<NavBar />
 	<CarHero />
 </template>
