@@ -1,35 +1,18 @@
-<script setup lang="ts">
-	defineProps({
-		car: Object,
-	});
+<script setup>
 	const route = useRoute();
+
+	const { data: car } = await useFetchCar(route.params.id);
 	const { toTitleCase } = useUtilities();
-	const { cars } = useCars();
 	useHead({
-		title: `${toTitleCase(route.params.name)}`,
+		title: toTitleCase(route.params.name),
 	});
 
 	definePageMeta({
 		layout: 'custom',
 	});
-
-	const car = computed(() => {
-		return cars.find((c) => {
-			return c.id === parseInt(route.params.id);
-		});
-	});
-
-	if (!car.value) {
-		throw createError({
-			statusCode: 404,
-			statusMessage: `Car with id of ${route.params.id} deesn't exist`,
-			fatal: true,
-		});
-	}
 </script>
-
 <template>
-	<div v-if="car">
+	<div>
 		<CarDetailHero :car="car" />
 		<CarDetailAttributes :features="car.features" />
 		<CarDetailDescription :description="car.description" />

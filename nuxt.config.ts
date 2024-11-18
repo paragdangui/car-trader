@@ -1,5 +1,13 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
- modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/image'],
- compatibilityDate: '2024-11-07',
+	modules: [
+		'@nuxtjs/tailwindcss',
+		'@vueuse/nuxt',
+		'@nuxt/image',
+		'@nuxtjs/supabase',
+	],
+	supabase: {
+		redirect: false,
+	},
+
+	compatibilityDate: '2024-11-08',
 });

@@ -1,9 +1,11 @@
-<script setup lang="ts">
+<script setup>
 	useHead({
 		title: 'Cartrader',
 	});
 </script>
 
 <template>
-	<CarHero />
+	<div>
+		<CarHero />
+	</div>
 </template>
