@@ -6,6 +6,7 @@
 
 	const { makes } = useCars();
 	const user = useSupabaseUser();
+	const supabase = useSupabaseClient();
 
 	const info = useState('adInfo', () => {
 		return {
@@ -18,7 +19,7 @@
 			seats: '',
 			features: '',
 			description: '',
-			image: 'sdfsdfsd',
+			image: null,
 		};
 	});
 
@@ -81,6 +82,14 @@
 	});
 
 	const handleSubmit = async () => {
+		const fileName = Math.floor(Math.random() * 1000000000000000000000000);
+		const { data, error } = await supabase.storage
+			.from('images')
+			.upload('public/' + fileName, info.value.image);
+
+		if (error) {
+			return (errorMessage.value = 'Cannot upload image');
+		}
 		const body = {
 			...info.value,
 			city: info.value.city.toLowerCase(),
@@ -91,7 +100,7 @@
 			year: parseInt(info.value.year),
 			name: `${info.value.make} ${info.value.model}`,
 			listerId: user.value.id,
-			image: 'sdfsdf',
+			image: data.path,
 		};
 
 		delete body.seats;
@@ -104,6 +113,7 @@
 			navigateTo('/profile/listings');
 		} catch (err) {
 			errorMessage.value = err.statusMessage;
+			await supabase.storage.from('image').remove(data.path);
 		}
 	};
 </script>
